@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="jquery/jquery.min.js"></script>
+</head>
+<style>
+    p{
+        /*margin:0;*/
+    }
+    .box{
+        margin:0 auto;
+        /*width:1000px;*/
+        /*box-shadow: 0 0 5px rgba(0,0,0,0.5);*/
+    }
+    li{
+        display: flex;
+    }
+    p{
+        padding: 0;
+        margin:0;
+    }
+    *{
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        text-decoration: none;
+        box-sizing: border-box;
+    }
+    body {
+        margin: 0;
+        padding: 0;
+        font-size: 16px;
+        background: #CDCDCD;
+    }
+    .hear{
+        width: 100%;
+        height: 50px;
+        background: #323232;
+    }
+    .header{
+        width: 600px;
+        height: 50px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+    }
+    .to{
+        width: 150px;
+        height: 50px;
+        line-height: 50px;
+        font-size: 30px;
+        color: #DDD;
+    }
+    .header input{
+        width:400px;
+        height: 40px;
+        margin: 5px auto;
+        border-radius: 5px;
+        outline-style: none;
+        border: none;
+        text-indent: 10px;
+    }
+    section{
+        width: 580px;
+        height:auto;
+        margin: 0 auto;
+        padding:0 10px;
+        margin-top: 20px;
+    }
+    h2{
+        width:100%;
+        height:auto;
+        display: flex;
+        margin: 0 auto;
+        justify-content: space-between;
+    }
+    .doing span{
+        width:20px;
+        height:20px;
+        border-radius:100%;
+        display: inline-block;
+        background: #E6E6FA;
+        line-height: 20px;
+        text-align: center;
+        color: #666;
+        font-size: 14px;
+    }
+    .done span{
+        width:20px;
+        height:20px;
+        border-radius:100%;
+        display: inline-block;
+        background: #E6E6FA;
+        line-height: 20px;
+        text-align: center;
+        color: #666;
+        font-size: 14px;
+    }
+    footer{
+        width: 100%;
+        height: 20px;
+        margin-top: 20px;
+        color: #666;
+        font-size: 14px;
+        text-align: center;
+    }
+    footer a{
+        color: #999;
+
+    }
+    ul{
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+        margin-top: 10px;
+    }
+    li{
+        width: 100%;
+        height: 32px;
+        border-radius: 6px;
+        border-left: 5px solid #999;
+        opacity: 1;
+        background: #fff;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+    }
+</style>
+<body>
+    <div class="box">
+        <div class="hear">
+            <div class="header">
+                <div class="to">ToDoList</div>
+                <input type="text" id="input">
+            </div>
+        </div>
+        <section class="doing">
+            <h1>正在进行 <span>0</span></h1>
+            <ul>
+                <!--<li>-->
+                    <!--<input type="checkbox">-->
+                    <!--<p>内容</p>-->
+                    <!--<div class="del">@</div>-->
+                <!--</li>-->
+            </ul>
+        </section>
+        <section class="done">
+            <h1>已经完成 <span>0</span></h1>
+            <ul>
+                <!--<li>-->
+                    <!--<input type="checkbox">-->
+                    <!--<p>内容</p>-->
+                    <!--<div class="del">@</div>-->
+                 <!--</li>-->
+            </ul>
+        </section>
+    </div>
+</body>
+</html>
+<script>
+    var todo=[
+        {id:1,content:"adsfsgsf",status:false},
+        {id:2,content:"asvaasvd",status:true},
+        {id:3,content:"sdvsd",status:false},
+        {id:4,content:"vsdvsd",status:true},
+        {id:5,content:"afadvsdvs",status:false},
+        {id:6,content:"sfsfsfdrd",status:true}
+    ];
+    let nextid=7;
+    function render(){
+        let doing=[];
+        let done=[];
+        todo.forEach(val=>{
+            if(val.status){
+                done.push(val);
+            }else{
+                doing.push(val);
+            }
+        })
+        let str="";
+        doing.forEach(val=>{
+            str+=`<li id="${val.id}">
+                    <input type="checkbox" class="input">
+                    <p>${val.content}</p>
+                    <div class="del">@</div>
+                 </li>`;
+        })
+        $('.doing').find('ul').html(str).end().find('h1 > span').html(doing.length);
+
+        let atr="";
+        done.forEach(val=>{
+            atr+=`<li id="${val.id}">
+                    <input type="checkbox" class="input" checked>
+                    <p>${val.content}</p>
+                    <div class="del">@</div>
+                 </li>`;
+        })
+        $('.done').find('ul').html(atr).end().find('h1 > span').html(done.length);
+    }
+
+    render();
+
+    $('.box').on('click','.del',function(){
+        let id=$(this).closest('li').attr('id');
+        let index=todo.findIndex(val=>val.id==id);
+        todo.splice(index,1);
+        render();
+//        if($(this).slosest('section').hasClass('doing')){
+//            let index=doing.findIndex(val=>val.id==id)
+//        }else{
+//
+//        }
+    }).on('click','p',function(){
+        let id=$(this).closest('li').attr('id');
+        let index=todo.findIndex(val=>val.id==id);
+        let input=$('<input>').val($(this).text());
+          $(this).html('').append(input);
+          input.focus();
+          input.change(function(){
+              todo[index].content=$(this).val();
+              render();
+          }).on('click','.input',function () {
+                  let id=$(this).closest('li').attr('id');
+                  let index=todo.findIndex(val=>val.id==id);
+                  todo[index].status=!todo[index].status;
+                  render();
+              });
+//        let input1=$('#input');
+//        input1.on('keyup',function (e) {
+//            if(e.which===13){
+//                if($(this).val()){
+//                    todo.unshift({id:nextid,content:$(this).val(),status:false});
+//                    nextid++;
+//                    render();
+//                }
+//            }
+//        })
+    })
+</script>
